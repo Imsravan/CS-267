@@ -1,0 +1,29 @@
+function docLeft(query, docId, indexMap):
+    if isPhraseOrTerm(query):
+        return prevDoc(query, docId, indexMap)
+
+    nextDocId = Integer.MAX_VALUE
+
+    if query contains "_":
+        subqueries = split query by "_"
+        for subquery in subqueries:
+            left = docLeft(subquery, docId, indexMap)
+            if nextDocId > left:
+                nextDocId = left
+
+    return nextDocId
+
+function docRight(query, docId, indexMap):
+    if isPhraseOrTerm(query):
+        return nextDoc(query, docId, indexMap)
+
+    nextDocId = Integer.MIN_VALUE
+
+    if query contains "_":
+        subqueries = split query by "_"
+        for subquery in subqueries:
+            right = docRight(subquery, docId, indexMap)
+            if nextDocId < right:
+                nextDocId = right
+
+    return nextDocId
