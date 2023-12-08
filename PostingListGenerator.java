@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class cosineRankCalculator {
+public class PostingListGenerator {
 
    /*
     * docTermsIndexMap is 1-indexed
