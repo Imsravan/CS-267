@@ -202,6 +202,70 @@ public class cosineRankCalculator {
 
    }
 
+   public static List<Pair> rankBM25DocumentAtATimeRM(List<String> terms, int k, String measure) {
+      // result = [score, docid]
+      ADT indexAdt = new ADT();
+
+      PriorityQueue<Pair> result = new PriorityQueue<>(Comparator.comparingDouble(Pair::getScore));
+
+      for (int i = 0; i < k; i++) {
+         result.add(new Pair(0, Integer.MAX_VALUE));
+      }
+
+      // result = [nextDoc, term]
+      PriorityQueue<Pair> termsPQ = new PriorityQueue<>(Comparator.comparingDouble(Pair::getDoc));
+
+      for (String term : terms) {
+         termsPQ.add(new Pair(indexAdt.nextDoc(term, Integer.MIN_VALUE, indexMap), term));
+      }
+
+      while (!termsPQ.isEmpty() && termsPQ.peek().getDoc() < Integer.MAX_VALUE) {
+         int d = termsPQ.peek().getDoc();
+         double score = 0;
+         while (!termsPQ.isEmpty() && termsPQ.peek().getDoc() == d) {
+            Pair currentTerm = termsPQ.poll();
+            String t = currentTerm.getTerm();
+            //score += tfBM25(t, d, indexMap.get(t).getDocTermsIndexMap().keySet()); // You need to implement tfBM25
+            if(measure.equalsIgnoreCase(t)){
+
+            } else if
+            int nextDoc = indexAdt.nextDoc(t, d, indexMap); // You need to implement nextDoc
+            termsPQ.add(new Pair(nextDoc, t));
+         }
+
+         if (!result.isEmpty() && score > result.peek().getScore()) {
+            result.poll();
+            result.add(new Pair(score, d));
+         }
+      }
+
+      List<Pair> allResults = new ArrayList<>();
+      while (!result.isEmpty()) {
+         Pair pair = result.poll();
+         if (pair.getScore() != 0) {
+            allResults.add(pair);
+         }
+      }
+
+      // Adjust k if necessary
+      if (allResults.size() < k) {
+         k = allResults.size();
+      }
+
+      // Get the top k results and reverse the order
+      List<Pair> topKResults = allResults.subList(allResults.size() - k, allResults.size());
+      Collections.reverse(topKResults);
+
+      // Returning or processing the topKResults
+      // Example: Printing top k results
+      for (Pair pair : topKResults) {
+         System.out.println("DocId: " + pair.getDoc() + ", Score: " + pair.getScore());
+      }
+
+      return topKResults;
+
+   }
+
    /**
     * Method that calculates IDF
     * 

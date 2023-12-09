@@ -76,7 +76,7 @@ public class ConjunctiveRank {
 
          IndexCompression ic = new IndexCompression();
 
-         search.displayResult(sortedDocumentScoreArray, n);
+         // search.displayResult(sortedDocumentScoreArray, n);
 
       }
 

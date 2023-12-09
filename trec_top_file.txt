@@ -1,0 +1,5 @@
+0 0 DOC-0000 1 0.946551 doc_time
+0 0 DOC-0001 1 2.095832 doc_time
+0 0 DOC-0002 1 0.946551 doc_time
+0 0 DOC-0003 1 1.131464 doc_time
+0 0 DOC-0004 1 0.946551 doc_time

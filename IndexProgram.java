@@ -9,12 +9,13 @@ import java.util.Map;
 
 public class IndexProgram {
 
-    static void encode(Map<String, Map<String, postingList>> index_StatisticMap) throws IOException {
+    static void encode(Map<String, Map<String, postingList>> index_StatisticMap, String indexFileName)
+            throws IOException {
         Map<String, postingList> indexMap = index_StatisticMap.get("index");
 
         Map<String, postingList> statisticMap = index_StatisticMap.get("statistic");
 
-        String baseFileName = "index";
+        String baseFileName = indexFileName;
         String txtFilePath = baseFileName + ".txt";
         String dicFilePath = baseFileName + ".dic";
 
@@ -184,15 +185,23 @@ public class IndexProgram {
     // }
 
     public static void main(String[] args) throws IOException {
-        String fileName = "corpus.txt";
 
-        String indexFile = "index.txt";
+        if (args.length < 3) {
+            System.out.println("Please input the correct number of agruments");
+            System.exit(0);
+        }
+
+        String fileName = args[0];
+        String indexFile = args[1];
+        // String fileName = "corpus.txt";
+
+        // String indexFile = "index.txt";
 
         PostingListGenerator plg = new PostingListGenerator();
 
         Map<String, Map<String, postingList>> index_StatisticMap = plg.generateIndex(fileName);
 
-        encode(index_StatisticMap);
+        encode(index_StatisticMap, indexFile);
     }
 
 }
